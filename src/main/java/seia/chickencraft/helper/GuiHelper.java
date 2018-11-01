@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiNewChat;
  * 
  * @author Krzysztof "Sejoslaw" Dobrzynski - k.dobrzynski94@gmail.com
  */
-public class GuiHelper {
+public final class GuiHelper {
 	private GuiHelper() {
 	}
 

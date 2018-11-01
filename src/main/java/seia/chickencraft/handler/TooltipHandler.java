@@ -18,6 +18,7 @@ import seia.chickencraft.helper.MessageHelper;
  * @author Krzysztof "Sejoslaw" Dobrzynski - k.dobrzynski94@gmail.com
  */
 public final class TooltipHandler extends BaseHandler {
+	private static final String HEADER = "---=== Chicken Genes ===---";
 
 	public TooltipHandler(ChickenCraft chickenCraft) {
 		super(chickenCraft);
@@ -27,7 +28,7 @@ public final class TooltipHandler extends BaseHandler {
 	 * This method handles showing egg item tooltips with all genes and metadata.
 	 */
 	public void handleShowEggTooltip(EntityPlayer player, ItemStack eggStack, List<String> tooltips) {
-		tooltips.add("[ChickenCraft] Genes:");
+		tooltips.add(HEADER);
 		for (IGene gene : GeneRegistry.getGenes()) {
 			String geneValue = gene.getGeneValue(eggStack);
 			String geneDisplayName = gene.getDisplayName();
@@ -39,11 +40,13 @@ public final class TooltipHandler extends BaseHandler {
 	 * This method handles showing chicken details with all genes and metadata.
 	 */
 	public void handleShowChickenDetails(EntityPlayer player, EntityChicken clickedEntity) {
-		MessageHelper.addChatComponentMessageNoSpam(player, "Genes:");
-		for (IGene gene : GeneRegistry.getGenes()) {
-			String geneValue = gene.getGeneValue(clickedEntity);
-			String geneDisplayName = gene.getDisplayName();
-			MessageHelper.addChatComponentMessageNoSpam(player, geneDisplayName + ": " + geneValue);
+		if (!player.world.isRemote) {
+			MessageHelper.addChatComponentMessage(player, HEADER);
+			for (IGene gene : GeneRegistry.getGenes()) {
+				String geneValue = gene.getGeneValue(clickedEntity);
+				String geneDisplayName = gene.getDisplayName();
+				MessageHelper.addChatComponentMessage(player, geneDisplayName + ": " + geneValue);
+			}
 		}
 	}
 }

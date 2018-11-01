@@ -10,7 +10,7 @@ import net.minecraft.util.text.translation.I18n;
  * 
  * @author Krzysztof "Sejoslaw" Dobrzynski - k.dobrzynski94@gmail.com
  */
-public class TextHelper {
+public final class TextHelper {
 	public static final String ENTER = "\n";
 
 	public static final String CHANGING = "§k";

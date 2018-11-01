@@ -5,6 +5,7 @@ import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import seia.chickencraft.api.genes.IGene;
+import seia.chickencraft.helper.DataHelper;
 
 /**
  * Basic gene for all chickens.
@@ -15,19 +16,11 @@ public abstract class BaseChickenGene implements IGene {
 	protected String newValue = "";
 
 	public String getGeneValue(Entity entity) {
-		String key = this.getNbtTag();
-		return this.getEntityData(entity).getString(key);
+		return this.getGeneValue(DataHelper.getEntityData(entity));
 	}
 
 	public String getGeneValue(ItemStack stack) {
-		String key = this.getNbtTag();
-		NBTTagCompound tag = this.getItemStackData(stack);
-
-		if (tag != null) {
-			return tag.getString(key);
-		} else {
-			return "";
-		}
+		return this.getGeneValue(DataHelper.getItemStackData(stack));
 	}
 
 	public void updateEntity(Entity entity) {
@@ -35,17 +28,35 @@ public abstract class BaseChickenGene implements IGene {
 		this.writeNewDataToEntity(entity);
 	}
 
-	protected NBTTagCompound getEntityData(Entity entity) { // Wrapper for Forge added method.
-		return entity.getEntityData();
+	protected String getGeneValue(NBTTagCompound tag) {
+		String key = this.getNbtTag();
+		if (tag != null) {
+			String geneValue = tag.getString(key);
+			if (geneValue == null || geneValue.equals("")) {
+				return null;
+			} else {
+				return geneValue;
+			}
+		} else {
+			return null;
+		}
 	}
 
-	protected NBTTagCompound getItemStackData(ItemStack stack) { // Wrapper for Forge added method.
-		return stack.getTagCompound();
+	protected String buildNbtTag() {
+		return buildNbtTag(null);
+	}
+
+	protected String buildNbtTag(String tagData) {
+		String tag = "ChickenCraft_" + this.getClass().getName();
+		if (tagData != null && !tagData.equals("")) {
+			return tag + "_" + tagData;
+		}
+		return tag;
 	}
 
 	private void writeNewDataToEntity(Entity entity) {
 		String key = this.getNbtTag();
-		this.getEntityData(entity).setString(key, this.newValue);
+		DataHelper.getEntityData(entity).setString(key, this.newValue);
 	}
 
 	protected abstract void updateChicken(EntityChicken entity);

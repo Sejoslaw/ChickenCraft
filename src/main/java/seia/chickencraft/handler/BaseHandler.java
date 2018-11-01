@@ -1,5 +1,7 @@
 package seia.chickencraft.handler;
 
+import java.util.Random;
+
 import seia.chickencraft.core.ChickenCraft;
 
 /**
@@ -9,8 +11,10 @@ import seia.chickencraft.core.ChickenCraft;
  */
 public abstract class BaseHandler {
 	protected final ChickenCraft chickenCraft;
+	protected final Random rand;
 
 	public BaseHandler(ChickenCraft chickenCraft) {
 		this.chickenCraft = chickenCraft;
+		this.rand = new Random();
 	}
 }

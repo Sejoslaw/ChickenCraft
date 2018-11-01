@@ -1,9 +1,11 @@
 package seia.chickencraft.genes;
 
 import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
- * Basic gene for
+ * Basic gene for displaying Parent / Chicken type.
  * 
  * @author Krzysztof "Sejoslaw" Dobrzynski - k.dobrzynski94@gmail.com
  */
@@ -20,10 +22,19 @@ public class ChickenTypeGene extends BaseChickenGene {
 	}
 
 	public String getNbtTag() {
-		return "ChickenCraft_ChickenType";
+		return this.buildNbtTag(this.typeName);
+	}
+
+	public String getGeneValue(NBTTagCompound tag) {
+		String geneValue = super.getGeneValue(tag);
+		if (geneValue == null) {
+			return "Normal";
+		} else {
+			return geneValue;
+		}
 	}
 
 	protected void updateChicken(EntityChicken entity) {
-		this.newValue = this.getGeneValue(entity); // TODO: Change to add "Normal" if null.
+		this.newValue = this.getGeneValue(entity);
 	}
 }

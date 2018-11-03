@@ -3,7 +3,7 @@ package seia.chickencraft.api.registries;
 import java.util.Collection;
 import java.util.HashSet;
 
-import seia.chickencraft.api.genes.IGene;
+import seia.chickencraft.api.genes.IChickenGene;
 
 /**
  * Registry which holds information about all genes.
@@ -12,7 +12,7 @@ import seia.chickencraft.api.genes.IGene;
  */
 public class GeneRegistry {
 
-	private static Collection<IGene> GENES = new HashSet<IGene>();
+	private static Collection<IChickenGene> GENES = new HashSet<IChickenGene>();
 
 	private GeneRegistry() {
 	}
@@ -20,15 +20,15 @@ public class GeneRegistry {
 	/**
 	 * Adds new gene to registry.
 	 */
-	public static void registerGene(IGene gene) {
+	public static void registerGene(IChickenGene gene) {
 		GENES.add(gene);
 	}
 
 	/**
 	 * @return Returns a COPY of all currently registered genes.
 	 */
-	public static Collection<IGene> getGenes() {
-		Collection<IGene> set = new HashSet<IGene>();
+	public static Collection<IChickenGene> getGenes() {
+		Collection<IChickenGene> set = new HashSet<IChickenGene>();
 		set.addAll(GENES);
 		return set;
 	}

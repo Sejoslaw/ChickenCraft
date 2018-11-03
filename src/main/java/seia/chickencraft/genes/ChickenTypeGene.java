@@ -1,7 +1,5 @@
 package seia.chickencraft.genes;
 
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
@@ -10,7 +8,6 @@ import net.minecraft.nbt.NBTTagCompound;
  * @author Krzysztof "Sejoslaw" Dobrzynski - k.dobrzynski94@gmail.com
  */
 public class ChickenTypeGene extends BaseChickenGene {
-
 	private String typeName;
 
 	public ChickenTypeGene(String typeName) {
@@ -32,9 +29,5 @@ public class ChickenTypeGene extends BaseChickenGene {
 		} else {
 			return geneValue;
 		}
-	}
-
-	protected void updateChicken(EntityChicken entity) {
-		this.newValue = this.getGeneValue(entity);
 	}
 }

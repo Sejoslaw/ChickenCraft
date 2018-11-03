@@ -2,11 +2,10 @@ package seia.chickencraft.handler;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import seia.chickencraft.api.genes.IGene;
+import seia.chickencraft.api.genes.IChickenGene;
 import seia.chickencraft.api.registries.GeneRegistry;
 import seia.chickencraft.core.ChickenCraft;
 import seia.chickencraft.helper.MessageHelper;
@@ -29,7 +28,7 @@ public final class TooltipHandler extends BaseHandler {
 	 */
 	public void handleShowEggTooltip(EntityPlayer player, ItemStack eggStack, List<String> tooltips) {
 		tooltips.add(HEADER);
-		for (IGene gene : GeneRegistry.getGenes()) {
+		for (IChickenGene gene : GeneRegistry.getGenes()) {
 			String geneValue = gene.getGeneValue(eggStack);
 			String geneDisplayName = gene.getDisplayName();
 			tooltips.add(geneDisplayName + ": " + geneValue);
@@ -42,7 +41,7 @@ public final class TooltipHandler extends BaseHandler {
 	public void handleShowChickenDetails(EntityPlayer player, EntityChicken clickedEntity) {
 		if (!player.world.isRemote) {
 			MessageHelper.addChatComponentMessage(player, HEADER);
-			for (IGene gene : GeneRegistry.getGenes()) {
+			for (IChickenGene gene : GeneRegistry.getGenes()) {
 				String geneValue = gene.getGeneValue(clickedEntity);
 				String geneDisplayName = gene.getDisplayName();
 				MessageHelper.addChatComponentMessage(player, geneDisplayName + ": " + geneValue);

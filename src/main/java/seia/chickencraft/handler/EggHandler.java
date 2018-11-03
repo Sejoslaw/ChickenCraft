@@ -1,14 +1,10 @@
 package seia.chickencraft.handler;
 
-import java.util.Random;
-
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.projectile.EntityEgg;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import seia.chickencraft.api.genes.IGene;
+import seia.chickencraft.api.genes.IChickenGene;
 import seia.chickencraft.api.registries.GeneRegistry;
 import seia.chickencraft.core.ChickenCraft;
 import seia.chickencraft.helper.DataHelper;
@@ -29,25 +25,32 @@ public final class EggHandler extends BaseHandler {
 	 */
 	public void handleEggHitGround(EntityEgg egg, RayTraceResult impactedThing) {
 		World world = egg.world;
-		Random rand = new Random();
-
 		if (!world.isRemote) {
-			if (rand.nextInt(8) == 0) {
-				// Prepare chicken
-				EntityChicken chicken = new EntityChicken(world);
-				chicken.setGrowingAge(-24000);
-				chicken.setLocationAndAngles(egg.posX, egg.posY, egg.posZ, egg.rotationYaw, 0.0F);
-
-				// Add genes to chicken
-				for (IGene gene : GeneRegistry.getGenes()) {
-					gene.updateEntity(chicken);
-				}
-
-				world.spawnEntity(chicken);
+			if (this.rand.nextInt(8) == 0) {
+				this.spawnChicken(egg, world);
 			}
-
 			world.setEntityState(egg, (byte) 3);
 			egg.setDead();
 		}
+	}
+
+	private void spawnChicken(EntityEgg egg, World world) {
+		EntityChicken chicken = new EntityChicken(world);
+
+		if (ChickenCraft.DEBUG) {
+			chicken.setGrowingAge(24000); // Grow chicken
+		} else {
+			chicken.setGrowingAge(-24000); // Small chicken
+		}
+
+		chicken.setLocationAndAngles(egg.posX, egg.posY, egg.posZ, egg.rotationYaw, 0.0F);
+
+		DataHelper.writeGenes(egg, chicken);
+
+		for (IChickenGene gene : GeneRegistry.getGenes()) {
+			gene.onChickenSpawnFromEgg(egg, chicken);
+		}
+
+		world.spawnEntity(chicken);
 	}
 }

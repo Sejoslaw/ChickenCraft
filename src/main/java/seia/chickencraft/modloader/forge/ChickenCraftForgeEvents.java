@@ -10,16 +10,15 @@ import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import seia.chickencraft.core.ChickenCraft;
-import seia.chickencraft.handler.ChickenHandler;
-import seia.chickencraft.handler.EggHandler;
-import seia.chickencraft.handler.TooltipHandler;
 
 /**
  * Class which is responsible to register events in Forge.
@@ -33,22 +32,23 @@ public class ChickenCraftForgeEvents {
 		this.chickenCraft = chickenCraft;
 	}
 
+	// ItemStack -> EntityEgg
 	@SubscribeEvent
-	public void handleChickenProduceItem(LivingUpdateEvent event) {
-		EntityLivingBase entityBase = event.getEntityLiving();
+	public void handlePlayerThrowEgg(RightClickItem event) {
+		EntityPlayer player = event.getEntityPlayer();
+		EnumHand hand = event.getHand();
 
-		if (!(entityBase instanceof EntityChicken)) {
-			return;
-		}
+		ItemStack eggStack = player.getHeldItem(hand);
 
-		String entityClassName = entityBase.getClass().getName();
-		String chickenClassName = EntityChicken.class.getName();
+		String currentItemName = eggStack.getItem().getRegistryName().toString();
+		String eggItemName = Items.EGG.getRegistryName().toString();
 
-		if (entityClassName.equals(chickenClassName)) {
-			this.chickenCraft.chickenHandler.handleChickenProduceItem((EntityChicken) entityBase);
+		if (eggItemName.equals(currentItemName)) {
+			this.chickenCraft.playerHandler.handlePlayerThrowEgg(player, eggStack);
 		}
 	}
 
+	// EntityEgg -> EntityChicken
 	@SubscribeEvent
 	public void handleEggHitGround(ProjectileImpactEvent.Throwable event) {
 		EntityThrowable egg = event.getThrowable();
@@ -64,6 +64,23 @@ public class ChickenCraftForgeEvents {
 
 		if (eggClassName.equals(entityClassName)) {
 			this.chickenCraft.eggHandler.handleEggHitGround((EntityEgg) egg, impactedThing);
+		}
+	}
+
+	// EntityChicken -> ItemStack
+	@SubscribeEvent
+	public void handleChickenProduceItem(LivingUpdateEvent event) {
+		EntityLivingBase entityBase = event.getEntityLiving();
+
+		if (!(entityBase instanceof EntityChicken)) {
+			return;
+		}
+
+		String entityClassName = entityBase.getClass().getName();
+		String chickenClassName = EntityChicken.class.getName();
+
+		if (entityClassName.equals(chickenClassName)) {
+			this.chickenCraft.chickenHandler.handleChickenProduceItem((EntityChicken) entityBase);
 		}
 	}
 

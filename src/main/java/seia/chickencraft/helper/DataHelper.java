@@ -3,6 +3,8 @@ package seia.chickencraft.helper;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import seia.chickencraft.api.genes.IChickenGene;
+import seia.chickencraft.api.registries.GeneRegistry;
 
 /**
  * Helper which is used to retrieve metadata from objects.
@@ -19,5 +21,29 @@ public final class DataHelper {
 
 	public static NBTTagCompound getItemStackData(ItemStack stack) { // Wrapper for Forge added method.
 		return stack.getTagCompound();
+	}
+
+	public static void writeGenes(ItemStack stackSource, Entity entityDestination) {
+		for (IChickenGene gene : GeneRegistry.getGenes()) {
+			String geneKey = gene.getNbtTag();
+			String geneValue = gene.getGeneValue(stackSource);
+			getEntityData(entityDestination).setString(geneKey, geneValue);
+		}
+	}
+
+	public static void writeGenes(Entity entitySource, Entity entityDestination) {
+		for (IChickenGene gene : GeneRegistry.getGenes()) {
+			String geneKey = gene.getNbtTag();
+			String geneValue = gene.getGeneValue(entitySource);
+			getEntityData(entityDestination).setString(geneKey, geneValue);
+		}
+	}
+
+	public static void writeGenes(Entity entitySource, ItemStack stackDestination) {
+		for (IChickenGene gene : GeneRegistry.getGenes()) {
+			String geneKey = gene.getNbtTag();
+			String geneValue = gene.getGeneValue(entitySource);
+			getItemStackData(stackDestination).setString(geneKey, geneValue);
+		}
 	}
 }

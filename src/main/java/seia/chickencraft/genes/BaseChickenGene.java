@@ -2,9 +2,11 @@ package seia.chickencraft.genes;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import seia.chickencraft.api.genes.IGene;
+import seia.chickencraft.api.genes.IChickenGene;
 import seia.chickencraft.helper.DataHelper;
 
 /**
@@ -12,7 +14,7 @@ import seia.chickencraft.helper.DataHelper;
  * 
  * @author Krzysztof "Sejoslaw" Dobrzynski - k.dobrzynski94@gmail.com
  */
-public abstract class BaseChickenGene implements IGene {
+public abstract class BaseChickenGene implements IChickenGene {
 	protected String newValue = "";
 
 	public String getGeneValue(Entity entity) {
@@ -23,9 +25,20 @@ public abstract class BaseChickenGene implements IGene {
 		return this.getGeneValue(DataHelper.getItemStackData(stack));
 	}
 
-	public void updateEntity(Entity entity) {
-		this.updateChicken((EntityChicken) entity);
-		this.writeNewDataToEntity(entity);
+	public String getNbtTag() {
+		return this.buildNbtTag();
+	}
+
+	public void updateChicken(EntityChicken entity) {
+	}
+
+	public void onPlayerThrowEgg(EntityPlayer player, ItemStack eggStack, EntityEgg egg) {
+	}
+
+	public void onChickenSpawnFromEgg(EntityEgg egg, EntityChicken chicken) {
+	}
+
+	public void onChickenProduceEgg(EntityChicken chicken, ItemStack eggStack) {
 	}
 
 	protected String getGeneValue(NBTTagCompound tag) {
@@ -54,10 +67,13 @@ public abstract class BaseChickenGene implements IGene {
 		return tag;
 	}
 
-	private void writeNewDataToEntity(Entity entity) {
+	protected void writeNewDataToStack(ItemStack eggStack) {
+		String key = this.getNbtTag();
+		DataHelper.getItemStackData(eggStack).setString(key, this.newValue);
+	}
+
+	protected void writeNewDataToEntity(Entity entity) {
 		String key = this.getNbtTag();
 		DataHelper.getEntityData(entity).setString(key, this.newValue);
 	}
-
-	protected abstract void updateChicken(EntityChicken entity);
 }

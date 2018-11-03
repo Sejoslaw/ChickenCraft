@@ -5,7 +5,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import seia.chickencraft.api.genes.IGene;
+import seia.chickencraft.api.genes.IChickenGene;
 import seia.chickencraft.api.registries.GeneRegistry;
 import seia.chickencraft.core.ChickenCraft;
 import seia.chickencraft.helper.DataHelper;
@@ -30,33 +30,38 @@ public final class ChickenHandler extends BaseHandler {
 	}
 
 	private void updateEntity(EntityChicken chicken) {
-		for (IGene gene : GeneRegistry.getGenes()) {
-			gene.updateEntity(chicken);
+		for (IChickenGene gene : GeneRegistry.getGenes()) {
+			gene.updateChicken(chicken);
 		}
 	}
 
 	private void spawnEggWithGenes(EntityChicken chicken) {
 		World world = chicken.world;
 
+		if (ChickenCraft.DEBUG) {
+			chicken.timeUntilNextEgg -= 100; // Chicken will drop eggs faster
+		}
+
 		if (!world.isRemote && !chicken.isChild() && !chicken.isChickenJockey() && --chicken.timeUntilNextEgg <= 0) {
 			chicken.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F,
 					(this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-			ItemStack stack = this.getEggWithDataStack(chicken);
-			chicken.entityDropItem(stack, 0);
+			this.dropEgg(chicken);
 			chicken.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
 		}
+	}
+
+	private void dropEgg(EntityChicken chicken) {
+		ItemStack stack = this.getEggWithDataStack(chicken);
+		for (IChickenGene gene : GeneRegistry.getGenes()) {
+			gene.onChickenProduceEgg(chicken, stack);
+		}
+		chicken.entityDropItem(stack, 0);
 	}
 
 	private ItemStack getEggWithDataStack(EntityChicken chicken) {
 		ItemStack stack = new ItemStack(Items.EGG);
 		stack.setStackDisplayName("Mystery Egg");
-
-		for (IGene gene : GeneRegistry.getGenes()) {
-			String geneKey = gene.getNbtTag();
-			String geneValue = gene.getGeneValue(chicken);
-			DataHelper.getItemStackData(stack).setString(geneKey, geneValue);
-		}
-
+		DataHelper.writeGenes(chicken, stack);
 		return stack;
 	}
 }

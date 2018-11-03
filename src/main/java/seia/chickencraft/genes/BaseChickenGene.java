@@ -1,5 +1,7 @@
 package seia.chickencraft.genes;
 
+import java.util.Random;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +18,7 @@ import seia.chickencraft.helper.DataHelper;
  */
 public abstract class BaseChickenGene implements IChickenGene {
 	protected String newValue = "";
+	protected Random rand = new Random();
 
 	public String getGeneValue(Entity entity) {
 		return this.getGeneValue(DataHelper.getEntityData(entity));

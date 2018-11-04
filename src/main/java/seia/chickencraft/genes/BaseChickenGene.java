@@ -32,7 +32,7 @@ public abstract class BaseChickenGene implements IChickenGene {
 		return this.buildNbtTag();
 	}
 
-	public void updateChicken(EntityChicken entity) {
+	public void updateChicken(EntityChicken chicken) {
 	}
 
 	public void onPlayerThrowEgg(EntityPlayer player, ItemStack eggStack, EntityEgg egg) {
@@ -49,13 +49,17 @@ public abstract class BaseChickenGene implements IChickenGene {
 		if (tag != null) {
 			String geneValue = tag.getString(key);
 			if (geneValue == null || geneValue.equals("")) {
-				return null;
+				return this.getDefaultGeneValue(tag);
 			} else {
 				return geneValue;
 			}
 		} else {
-			return null;
+			return this.getDefaultGeneValue(tag);
 		}
+	}
+
+	protected String getDefaultGeneValue(NBTTagCompound tag) {
+		return null;
 	}
 
 	protected String buildNbtTag() {
@@ -78,5 +82,19 @@ public abstract class BaseChickenGene implements IChickenGene {
 	protected void writeNewDataToEntity(Entity entity) {
 		String key = this.getNbtTag();
 		DataHelper.getEntityData(entity).setString(key, this.newValue);
+	}
+
+	protected String getNewRandomPercentage() {
+		double percent = this.rand.nextDouble();
+		percent *= 100;
+
+		String percentValue = String.valueOf(percent);
+		if (percent < 10) {
+			percentValue = percentValue.substring(0, 4);
+		} else {
+			percentValue = percentValue.substring(0, 5);
+		}
+
+		return percentValue;
 	}
 }

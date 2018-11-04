@@ -22,12 +22,7 @@ public class ChickenTypeGene extends BaseChickenGene {
 		return this.buildNbtTag(this.typeName);
 	}
 
-	public String getGeneValue(NBTTagCompound tag) {
-		String geneValue = super.getGeneValue(tag);
-		if (geneValue == null) {
-			return "Normal";
-		} else {
-			return geneValue;
-		}
+	protected String getDefaultGeneValue(NBTTagCompound tag) {
+		return "Normal";
 	}
 }

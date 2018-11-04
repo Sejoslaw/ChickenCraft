@@ -14,20 +14,15 @@ public class GenerationGene extends BaseChickenGene {
 		return "Generation";
 	}
 
-	public String getGeneValue(NBTTagCompound tag) {
-		String geneValue = super.getGeneValue(tag);
-		if (geneValue == null) {
-			return "0";
-		} else {
-			return geneValue;
-		}
-	}
-
 	public void onChickenProduceEgg(EntityChicken chicken, ItemStack eggStack) {
 		String geneValue = this.getGeneValue(chicken);
 		long value = Long.parseLong(geneValue);
 		value += 1;
 		this.newValue = String.valueOf(value);
 		this.writeNewDataToStack(eggStack);
+	}
+
+	protected String getDefaultGeneValue(NBTTagCompound tag) {
+		return "0";
 	}
 }

@@ -2,6 +2,7 @@ package seia.chickencraft.core;
 
 import seia.chickencraft.api.registries.GeneRegistry;
 import seia.chickencraft.genes.ChickenTypeGene;
+import seia.chickencraft.genes.DecreaseEggSpawningTicksGene;
 import seia.chickencraft.genes.GenerationGene;
 import seia.chickencraft.genes.MutationChanceGene;
 import seia.chickencraft.handler.ChickenHandler;
@@ -33,5 +34,6 @@ public abstract class ChickenCraft {
 		GeneRegistry.registerGene(new ChickenTypeGene("Chicken"));
 		GeneRegistry.registerGene(new GenerationGene());
 		GeneRegistry.registerGene(new MutationChanceGene());
+		GeneRegistry.registerGene(new DecreaseEggSpawningTicksGene());
 	}
 }

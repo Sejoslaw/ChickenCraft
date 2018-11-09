@@ -32,4 +32,16 @@ public class GeneRegistry {
 		set.addAll(GENES);
 		return set;
 	}
+
+	/**
+	 * @return Returns gene by it's class.
+	 */
+	public static <TGene extends IChickenGene> IChickenGene GetGene(Class<TGene> clazz) {
+		for (IChickenGene gene : GENES) {
+			if (gene.getClass().getName().equals(clazz.getName())) {
+				return gene;
+			}
+		}
+		return null;
+	}
 }

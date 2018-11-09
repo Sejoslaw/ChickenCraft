@@ -1,5 +1,9 @@
 package seia.chickencraft.helper;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
@@ -70,5 +74,23 @@ public final class TextHelper {
 	 */
 	public static ITextComponent wrap(String s) {
 		return new TextComponentString(s);
+	}
+
+	/**
+	 * @return Returns formatted text of NBTBase value.
+	 */
+	public static String formatGeneValue(NBTBase nbt) {
+		if (nbt == null) {
+			return "";
+		}
+
+		if (nbt instanceof NBTTagCompound) {
+			String itemId = formatGeneValue(((NBTTagCompound) nbt).getTag("id"));
+			Item item = Item.getByNameOrId(itemId);
+			ItemStack stack = new ItemStack(item);
+			return stack.getDisplayName();
+		}
+
+		return nbt.toString().replace("\"", "");
 	}
 }

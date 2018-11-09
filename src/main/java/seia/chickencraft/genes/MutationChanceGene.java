@@ -2,7 +2,9 @@ package seia.chickencraft.genes;
 
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagString;
 
 /**
  * Basic gene for displaying mutation chance.
@@ -15,11 +17,12 @@ public class MutationChanceGene extends BaseChickenGene {
 	}
 
 	public void onChickenProduceEgg(EntityChicken chicken, ItemStack eggStack) {
-		this.newValue = this.getNewRandomPercentage();
+		String percentage = this.getNewRandomPercentage();
+		this.newValue = new NBTTagString(percentage);
 		this.writeNewDataToStack(eggStack);
 	}
 
-	protected String getDefaultGeneValue(NBTTagCompound tag) {
-		return "50.00";
+	protected NBTBase getDefaultGeneValue(NBTTagCompound tag) {
+		return new NBTTagString("50.00");
 	}
 }

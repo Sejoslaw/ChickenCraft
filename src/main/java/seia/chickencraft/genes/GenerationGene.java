@@ -2,7 +2,9 @@ package seia.chickencraft.genes;
 
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagString;
 
 /**
  * Basic gene for displaying current chicken generation.
@@ -15,14 +17,15 @@ public class GenerationGene extends BaseChickenGene {
 	}
 
 	public void onChickenProduceEgg(EntityChicken chicken, ItemStack eggStack) {
-		String geneValue = this.getGeneValue(chicken);
+		NBTBase geneValueBase = this.getGeneValue(chicken);
+		String geneValue = ((NBTTagString) geneValueBase).getString();
 		long value = Long.parseLong(geneValue);
 		value += 1;
-		this.newValue = String.valueOf(value);
+		this.newValue = new NBTTagString(String.valueOf(value));
 		this.writeNewDataToStack(eggStack);
 	}
 
-	protected String getDefaultGeneValue(NBTTagCompound tag) {
-		return "0";
+	protected NBTBase getDefaultGeneValue(NBTTagCompound tag) {
+		return new NBTTagString("0");
 	}
 }

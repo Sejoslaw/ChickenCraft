@@ -7,6 +7,7 @@ import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import seia.chickencraft.api.genes.IChickenGene;
 import seia.chickencraft.helper.DataHelper;
@@ -17,14 +18,14 @@ import seia.chickencraft.helper.DataHelper;
  * @author Krzysztof "Sejoslaw" Dobrzynski - k.dobrzynski94@gmail.com
  */
 public abstract class BaseChickenGene implements IChickenGene {
-	protected String newValue = "";
+	protected NBTBase newValue = null;
 	protected Random rand = new Random();
 
-	public String getGeneValue(Entity entity) {
+	public NBTBase getGeneValue(Entity entity) {
 		return this.getGeneValue(DataHelper.getEntityData(entity));
 	}
 
-	public String getGeneValue(ItemStack stack) {
+	public NBTBase getGeneValue(ItemStack stack) {
 		return this.getGeneValue(DataHelper.getItemStackData(stack));
 	}
 
@@ -44,11 +45,11 @@ public abstract class BaseChickenGene implements IChickenGene {
 	public void onChickenProduceEgg(EntityChicken chicken, ItemStack eggStack) {
 	}
 
-	protected String getGeneValue(NBTTagCompound tag) {
+	protected NBTBase getGeneValue(NBTTagCompound tag) {
 		String key = this.getNbtTag();
 		if (tag != null) {
-			String geneValue = tag.getString(key);
-			if (geneValue == null || geneValue.equals("")) {
+			NBTBase geneValue = tag.getTag(key);
+			if (geneValue == null) {
 				return this.getDefaultGeneValue(tag);
 			} else {
 				return geneValue;
@@ -58,7 +59,7 @@ public abstract class BaseChickenGene implements IChickenGene {
 		}
 	}
 
-	protected String getDefaultGeneValue(NBTTagCompound tag) {
+	protected NBTBase getDefaultGeneValue(NBTTagCompound tag) {
 		return null;
 	}
 
@@ -76,12 +77,12 @@ public abstract class BaseChickenGene implements IChickenGene {
 
 	protected void writeNewDataToStack(ItemStack eggStack) {
 		String key = this.getNbtTag();
-		DataHelper.getItemStackData(eggStack).setString(key, this.newValue);
+		DataHelper.getItemStackData(eggStack).setTag(key, this.newValue);
 	}
 
 	protected void writeNewDataToEntity(Entity entity) {
 		String key = this.getNbtTag();
-		DataHelper.getEntityData(entity).setString(key, this.newValue);
+		DataHelper.getEntityData(entity).setTag(key, this.newValue);
 	}
 
 	protected String getNewRandomPercentage() {

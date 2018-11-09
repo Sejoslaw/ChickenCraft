@@ -1,6 +1,8 @@
 package seia.chickencraft.genes;
 
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagString;
 
 /**
  * Basic gene for displaying Parent / Chicken type.
@@ -22,7 +24,7 @@ public class ChickenTypeGene extends BaseChickenGene {
 		return this.buildNbtTag(this.typeName);
 	}
 
-	protected String getDefaultGeneValue(NBTTagCompound tag) {
-		return "Normal";
+	protected NBTBase getDefaultGeneValue(NBTTagCompound tag) {
+		return new NBTTagString("Normal");
 	}
 }

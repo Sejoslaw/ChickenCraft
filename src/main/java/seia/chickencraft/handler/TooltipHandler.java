@@ -9,6 +9,7 @@ import seia.chickencraft.api.genes.IChickenGene;
 import seia.chickencraft.api.registries.GeneRegistry;
 import seia.chickencraft.core.ChickenCraft;
 import seia.chickencraft.helper.MessageHelper;
+import seia.chickencraft.helper.TextHelper;
 
 /**
  * Class which is responsible to handle all events connected with showing egg
@@ -29,7 +30,7 @@ public final class TooltipHandler extends BaseHandler {
 	public void handleShowEggTooltip(EntityPlayer player, ItemStack eggStack, List<String> tooltips) {
 		tooltips.add(HEADER);
 		for (IChickenGene gene : GeneRegistry.getGenes()) {
-			String geneValue = gene.getGeneValue(eggStack);
+			String geneValue = TextHelper.formatGeneValue(gene.getGeneValue(eggStack));
 			String geneDisplayName = gene.getDisplayName();
 			tooltips.add(geneDisplayName + ": " + geneValue);
 		}
@@ -42,7 +43,7 @@ public final class TooltipHandler extends BaseHandler {
 		if (!player.world.isRemote) {
 			MessageHelper.addChatComponentMessage(player, HEADER);
 			for (IChickenGene gene : GeneRegistry.getGenes()) {
-				String geneValue = gene.getGeneValue(clickedEntity);
+				String geneValue = TextHelper.formatGeneValue(gene.getGeneValue(clickedEntity));
 				String geneDisplayName = gene.getDisplayName();
 				MessageHelper.addChatComponentMessage(player, geneDisplayName + ": " + geneValue);
 			}

@@ -2,7 +2,9 @@ package seia.chickencraft.genes;
 
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagString;
 
 /**
  * Gene which is responsible for speeding up egg production by chickens.
@@ -15,17 +17,19 @@ public class DecreaseEggSpawningTicksGene extends BaseChickenGene {
 	}
 
 	public void updateChicken(EntityChicken chicken) {
-		String geneValueString = this.getGeneValue(chicken);
+		NBTBase geneValueBase = this.getGeneValue(chicken);
+		String geneValueString = ((NBTTagString) geneValueBase).getString();
 		int geneValue = Integer.parseInt(geneValueString);
 		chicken.timeUntilNextEgg -= geneValue;
 	}
 
 	public void onChickenProduceEgg(EntityChicken chicken, ItemStack eggStack) {
-		this.newValue = String.valueOf(this.rand.nextInt(100));
+		String percentValue = String.valueOf(this.rand.nextInt(100));
+		this.newValue = new NBTTagString(percentValue);
 		this.writeNewDataToStack(eggStack);
 	}
 
-	protected String getDefaultGeneValue(NBTTagCompound tag) {
-		return "0";
+	protected NBTBase getDefaultGeneValue(NBTTagCompound tag) {
+		return new NBTTagString("0");
 	}
 }

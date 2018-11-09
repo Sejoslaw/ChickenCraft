@@ -2,13 +2,13 @@ package seia.chickencraft.handler;
 
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import seia.chickencraft.api.genes.IChickenGene;
 import seia.chickencraft.api.registries.GeneRegistry;
 import seia.chickencraft.core.ChickenCraft;
 import seia.chickencraft.helper.DataHelper;
+import seia.chickencraft.helper.SoundHelper;
 
 /**
  * Class which is responsible to handle all events connected with chickens.
@@ -43,8 +43,7 @@ public final class ChickenHandler extends BaseHandler {
 		}
 
 		if (!world.isRemote && !chicken.isChild() && !chicken.isChickenJockey() && --chicken.timeUntilNextEgg <= 0) {
-			chicken.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F,
-					(this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+			SoundHelper.playChickenDropSound(chicken);
 			this.dropEgg(chicken);
 			chicken.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
 		}

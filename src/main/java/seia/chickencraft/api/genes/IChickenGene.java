@@ -5,6 +5,7 @@ import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 
 /**
  * Describes single gene connected with a chicken.
@@ -25,12 +26,12 @@ public interface IChickenGene {
 	/**
 	 * @return Returns the value of the current gene for specified entity.
 	 */
-	String getGeneValue(Entity entity);
+	NBTBase getGeneValue(Entity entity);
 
 	/**
 	 * @return Returns the value of the current gene for specified stack (egg).
 	 */
-	String getGeneValue(ItemStack eggStack);
+	NBTBase getGeneValue(ItemStack eggStack);
 
 	/**
 	 * Updates specified chicken.

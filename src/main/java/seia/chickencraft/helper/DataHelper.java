@@ -26,7 +26,7 @@ public final class DataHelper {
 	public static void writeGenes(ItemStack stackSource, Entity entityDestination) {
 		for (IChickenGene gene : GeneRegistry.getGenes()) {
 			String geneKey = gene.getNbtTag();
-			String geneValue = gene.getGeneValue(stackSource);
+			String geneValue = TextHelper.formatGeneValue(gene.getGeneValue(stackSource));
 			getEntityData(entityDestination).setString(geneKey, geneValue);
 		}
 	}
@@ -34,7 +34,7 @@ public final class DataHelper {
 	public static void writeGenes(Entity entitySource, Entity entityDestination) {
 		for (IChickenGene gene : GeneRegistry.getGenes()) {
 			String geneKey = gene.getNbtTag();
-			String geneValue = gene.getGeneValue(entitySource);
+			String geneValue = TextHelper.formatGeneValue(gene.getGeneValue(entitySource));
 			getEntityData(entityDestination).setString(geneKey, geneValue);
 		}
 	}
@@ -42,7 +42,7 @@ public final class DataHelper {
 	public static void writeGenes(Entity entitySource, ItemStack stackDestination) {
 		for (IChickenGene gene : GeneRegistry.getGenes()) {
 			String geneKey = gene.getNbtTag();
-			String geneValue = gene.getGeneValue(entitySource);
+			String geneValue = TextHelper.formatGeneValue(gene.getGeneValue(entitySource));
 			getItemStackData(stackDestination).setString(geneKey, geneValue);
 		}
 	}

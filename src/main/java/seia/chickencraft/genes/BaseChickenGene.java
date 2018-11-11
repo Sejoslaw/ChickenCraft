@@ -9,6 +9,7 @@ import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagString;
 import seia.chickencraft.api.genes.IChickenGene;
 import seia.chickencraft.helper.DataHelper;
 
@@ -31,6 +32,11 @@ public abstract class BaseChickenGene implements IChickenGene {
 
 	public String getNbtTag() {
 		return this.buildNbtTag();
+	}
+
+	public void setGeneValue(NBTTagCompound data, NBTBase geneValue) {
+		String key = this.getNbtTag();
+		data.setTag(key, geneValue);
 	}
 
 	public void updateChicken(EntityChicken chicken) {
@@ -60,7 +66,7 @@ public abstract class BaseChickenGene implements IChickenGene {
 	}
 
 	protected NBTBase getDefaultGeneValue(NBTTagCompound tag) {
-		return null;
+		return new NBTTagString();
 	}
 
 	protected String buildNbtTag() {
@@ -76,13 +82,11 @@ public abstract class BaseChickenGene implements IChickenGene {
 	}
 
 	protected void writeNewDataToStack(ItemStack eggStack) {
-		String key = this.getNbtTag();
-		DataHelper.getItemStackData(eggStack).setTag(key, this.newValue);
+		this.setGeneValue(DataHelper.getItemStackData(eggStack), this.newValue);
 	}
 
 	protected void writeNewDataToEntity(Entity entity) {
-		String key = this.getNbtTag();
-		DataHelper.getEntityData(entity).setTag(key, this.newValue);
+		this.setGeneValue(DataHelper.getEntityData(entity), this.newValue);
 	}
 
 	protected String getNewRandomPercentage() {

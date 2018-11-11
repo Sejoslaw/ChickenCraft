@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
+import seia.chickencraft.api.core.ChickenCraftConstants;
 
 /**
  * Gene which is responsible for speeding up egg production by chickens.
@@ -30,6 +31,6 @@ public class DecreaseEggSpawningTicksGene extends BaseChickenGene {
 	}
 
 	protected NBTBase getDefaultGeneValue(NBTTagCompound tag) {
-		return new NBTTagString("0");
+		return new NBTTagString(ChickenCraftConstants.GENE_DECREASE_EGG_SPAWNING_TICKS);
 	}
 }

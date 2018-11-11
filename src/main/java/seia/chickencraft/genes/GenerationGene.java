@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
+import seia.chickencraft.api.core.ChickenCraftConstants;
 
 /**
  * Basic gene for displaying current chicken generation.
@@ -26,6 +27,6 @@ public class GenerationGene extends BaseChickenGene {
 	}
 
 	protected NBTBase getDefaultGeneValue(NBTTagCompound tag) {
-		return new NBTTagString("0");
+		return new NBTTagString(ChickenCraftConstants.GENE_GENERATION);
 	}
 }

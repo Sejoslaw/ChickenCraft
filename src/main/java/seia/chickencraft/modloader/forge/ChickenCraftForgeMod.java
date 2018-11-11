@@ -19,6 +19,7 @@ public class ChickenCraftForgeMod extends ChickenCraft {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		this.registerBasicGenes();
+		this.registerChickenTypes();
 		this.registerModEvents();
 	}
 

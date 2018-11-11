@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
+import seia.chickencraft.api.core.ChickenCraftConstants;
 
 /**
  * Basic gene for displaying mutation chance.
@@ -23,6 +24,6 @@ public class MutationChanceGene extends BaseChickenGene {
 	}
 
 	protected NBTBase getDefaultGeneValue(NBTTagCompound tag) {
-		return new NBTTagString("50.00");
+		return new NBTTagString(ChickenCraftConstants.GENE_MUTATION_CHANCE);
 	}
 }

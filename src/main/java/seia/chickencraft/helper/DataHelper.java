@@ -2,6 +2,7 @@ package seia.chickencraft.helper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import seia.chickencraft.api.genes.IChickenGene;
 import seia.chickencraft.api.registries.GeneRegistry;
@@ -26,24 +27,24 @@ public final class DataHelper {
 	public static void writeGenes(ItemStack stackSource, Entity entityDestination) {
 		for (IChickenGene gene : GeneRegistry.getGenes()) {
 			String geneKey = gene.getNbtTag();
-			String geneValue = TextHelper.formatGeneValue(gene.getGeneValue(stackSource));
-			getEntityData(entityDestination).setString(geneKey, geneValue);
+			NBTBase geneValue = gene.getGeneValue(stackSource);
+			getEntityData(entityDestination).setTag(geneKey, geneValue);
 		}
 	}
 
 	public static void writeGenes(Entity entitySource, Entity entityDestination) {
 		for (IChickenGene gene : GeneRegistry.getGenes()) {
 			String geneKey = gene.getNbtTag();
-			String geneValue = TextHelper.formatGeneValue(gene.getGeneValue(entitySource));
-			getEntityData(entityDestination).setString(geneKey, geneValue);
+			NBTBase geneValue = gene.getGeneValue(entitySource);
+			getEntityData(entityDestination).setTag(geneKey, geneValue);
 		}
 	}
 
 	public static void writeGenes(Entity entitySource, ItemStack stackDestination) {
 		for (IChickenGene gene : GeneRegistry.getGenes()) {
 			String geneKey = gene.getNbtTag();
-			String geneValue = TextHelper.formatGeneValue(gene.getGeneValue(entitySource));
-			getItemStackData(stackDestination).setString(geneKey, geneValue);
+			NBTBase geneValue = gene.getGeneValue(entitySource);
+			getItemStackData(stackDestination).setTag(geneKey, geneValue);
 		}
 	}
 }

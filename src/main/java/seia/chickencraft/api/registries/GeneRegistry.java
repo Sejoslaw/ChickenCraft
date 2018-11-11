@@ -10,9 +10,9 @@ import seia.chickencraft.api.genes.IChickenGene;
  * 
  * @author Krzysztof "Sejoslaw" Dobrzynski - k.dobrzynski94@gmail.com
  */
-public class GeneRegistry {
+public final class GeneRegistry {
 
-	private static Collection<IChickenGene> GENES = new HashSet<IChickenGene>();
+	private static final Collection<IChickenGene> GENES = new HashSet<>();
 
 	private GeneRegistry() {
 	}
@@ -28,7 +28,7 @@ public class GeneRegistry {
 	 * @return Returns a COPY of all currently registered genes.
 	 */
 	public static Collection<IChickenGene> getGenes() {
-		Collection<IChickenGene> set = new HashSet<IChickenGene>();
+		Collection<IChickenGene> set = new HashSet<>();
 		set.addAll(GENES);
 		return set;
 	}
@@ -36,7 +36,7 @@ public class GeneRegistry {
 	/**
 	 * @return Returns gene by it's class.
 	 */
-	public static <TGene extends IChickenGene> IChickenGene GetGene(Class<TGene> clazz) {
+	public static <TGene extends IChickenGene> IChickenGene getGene(Class<TGene> clazz) {
 		for (IChickenGene gene : GENES) {
 			if (gene.getClass().getName().equals(clazz.getName())) {
 				return gene;

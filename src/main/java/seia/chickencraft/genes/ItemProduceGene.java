@@ -24,8 +24,10 @@ public class ItemProduceGene extends BaseChickenGene {
 			return;
 		}
 
-		ItemStack producedItemStack = new ItemStack((NBTTagCompound) geneValueBase);
-		SoundHelper.playChickenDropSound(chicken);
-		chicken.entityDropItem(producedItemStack, 0);
+		if (geneValueBase instanceof NBTTagCompound) {
+			ItemStack producedItemStack = new ItemStack((NBTTagCompound) geneValueBase);
+			SoundHelper.playChickenDropSound(chicken);
+			chicken.entityDropItem(producedItemStack, 0);
+		}
 	}
 }

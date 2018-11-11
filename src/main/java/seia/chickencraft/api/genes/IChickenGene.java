@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * Describes single gene connected with a chicken.
@@ -32,6 +33,14 @@ public interface IChickenGene {
 	 * @return Returns the value of the current gene for specified stack (egg).
 	 */
 	NBTBase getGeneValue(ItemStack eggStack);
+
+	/**
+	 * Sets new gene value.
+	 * 
+	 * @param sourceData Entity / ItemStack data.
+	 * @param geneValue  New gene value.
+	 */
+	void setGeneValue(NBTTagCompound sourceData, NBTBase geneValue);
 
 	/**
 	 * Updates specified chicken.
